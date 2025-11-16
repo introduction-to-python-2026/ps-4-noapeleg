@@ -32,26 +32,21 @@ def split_before_each_uppercases(formula):
 
 def split_at_first_digit(formula):
     """
-    מחזירה מחרוזת עד הספרה הראשונה במספר + המספר שנמצא אחרי.
+    מחזירה מחרוזת עד הספרה הראשונה + המספר הרצוף שמתחיל באותה ספרה.
     אם אין ספרה – מחזירה את כל המחרוזת + 1
     """
     if not formula:
         return "", 1
 
-    if len(formula) == 1:
-        if formula[0].isdigit():
-            return "", int(formula[0])
-        else:
-            return formula, 1
-
-    # חיפוש הספרה הראשונה
-    digit_location = len(formula)  # ברירת מחדל – אין ספרה
     for idx, char in enumerate(formula):
         if char.isdigit():
-            digit_location = idx
-            break
+            # מצאנו את הספרה הראשונה
+            start_num = idx
+            end_num = idx
+            while end_num < len(formula) and formula[end_num].isdigit():
+                end_num += 1
+            number = int(formula[start_num:end_num])
+            return formula[:start_num], number
 
-    if digit_location == len(formula):
-        return formula, 1  # אין ספרה במחרוזת
-    else:
-        return formula[:digit_location], int(formula[digit_location:])
+    # אם לא נמצאה ספרה
+    return formula, 1
