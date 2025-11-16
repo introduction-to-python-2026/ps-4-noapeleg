@@ -9,13 +9,13 @@ def split_before_each_uppercases(formula):
 
     # בידוד המספר האחרון אם המחרוזת מסתיימת בספרות
     number = 1
-    for i in range(len(formula)-1, -1, -1):
+    for i in range(len(formula) - 1, -1, -1):
         if formula[i].isdigit():
             continue
         else:
-            if i < len(formula)-1:
-                number = int(formula[i+1:])
-                formula = formula[:i+1]
+            if i < len(formula) - 1:
+                number = int(formula[i + 1:])
+                formula = formula[:i + 1]
             break
 
     # חלוקה לפני כל אות גדולה
@@ -30,28 +30,28 @@ def split_before_each_uppercases(formula):
     return result, number
 
 
-
 def split_at_first_digit(formula):
-    def split_before_each_uppercases(formula):
-    digit_location = 1 
-
-    # טיפול במחרוזת ריקה או באורך 1
-    if len(formula) == 0:
+    """
+    מחזירה מחרוזת עד הספרה הראשונה במספר + המספר שנמצא אחרי.
+    אם אין ספרה – מחזירה את כל המחרוזת + 1
+    """
+    if not formula:
         return "", 1
-    elif len(formula) == 1:
+
+    if len(formula) == 1:
         if formula[0].isdigit():
             return "", int(formula[0])
         else:
             return formula, 1
 
-    # חיפוש הספרה הראשונה אחרי התו הראשון
-    for char in formula[1:]:
+    # חיפוש הספרה הראשונה
+    digit_location = len(formula)  # ברירת מחדל – אין ספרה
+    for idx, char in enumerate(formula):
         if char.isdigit():
+            digit_location = idx
             break
-        digit_location += 1
 
-    # אם אין ספרה במחרוזת, מחזירים את כל המחרוזת עם 1
     if digit_location == len(formula):
-        return formula, 1
+        return formula, 1  # אין ספרה במחרוזת
     else:
         return formula[:digit_location], int(formula[digit_location:])
